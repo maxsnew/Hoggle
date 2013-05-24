@@ -8,7 +8,7 @@ import Data.List
 
 data Board = Board {
   size   :: Int,
-  spaces :: (Array Int (Array Int Char))
+  spaces :: Array Int (Array Int Char)
   } deriving Eq
 
 mkBoard :: Int -> [[Char]] -> Maybe Board
@@ -16,8 +16,8 @@ mkBoard n ccs = do
   as <- mapM upTo ccs
   b  <- upTo as
   return $ Board n b
-  where upTo cs = do guard $ (length cs) == n
-                     return $ array (0,n-1) . (zip [0..]) $ cs
+  where upTo cs = do guard $ length cs == n
+                     return $ array (0,n-1) . zip [0..] $ cs
 
 
 toList :: Board -> [[Char]]
