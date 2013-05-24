@@ -7,7 +7,6 @@ import Control.Applicative
 import Control.Monad.State
 import Data.List as List
 import Data.Maybe
-import Data.Tuple
 import System.Random
 
 type Cube = String
@@ -41,29 +40,33 @@ cubes =
   , "ooottu"
   ]
 
-randBoard :: (RandomGen g) => State g Board
-randBoard = (fromJust . mkBoard size . splitUp size) <$> randL
-  where n = length cubes
-        size = floor . sqrt . fromIntegral $ n
+type Rand a = State StdGen a
+
+randBoard :: Rand Board
+randBoard = (fromJust . mkBoard n . splitUp n) <$> randL
+  where n     = floor . sqrt . fromIntegral . length $ cubes
         randL = shuffle cubes >>= mapM pick
 
 splitUp :: Int -> [a] -> [[a]]
 splitUp 0 xs = [xs]
 splitUp n xs | n > 0 = case end of
   []        -> [beg]
-  otherwise -> beg : splitUp n end
+  _         -> beg : splitUp n end
   where (beg, end) = splitAt n xs
+splitUp _ _ = error "splitUp takes Non-negative arguments"                     
 
-shuffle :: (Eq a, RandomGen g) => [a] -> State g [a]
+shuffle :: (Eq a) => [a] -> Rand [a]
 shuffle [] = return []
 shuffle xs = do
   x'  <- pick xs
   xs' <- shuffle $ List.delete x' xs
   return $ x':xs'
 
-getRand :: (RandomGen g) => State g Int
+getRand :: Rand Int
 getRand = state next
 
+randIndex :: Int -> Rand Int
 randIndex n = liftM (`mod` n) getRand
 
+pick :: [a] -> Rand a
 pick xs = liftM (xs !!) (randIndex . length $ xs)

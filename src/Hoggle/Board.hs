@@ -1,7 +1,6 @@
 module Hoggle.Board
        where
 
-import Control.Applicative
 import Control.Monad
 import Data.Array (Array, elems, array)
 import qualified Data.Array as Arr
@@ -14,11 +13,11 @@ data Board = Board {
 
 mkBoard :: Int -> [[Char]] -> Maybe Board
 mkBoard n ccs = do
-  as <- mapM (upTo n) ccs
-  b  <- upTo n as
+  as <- mapM upTo ccs
+  b  <- upTo as
   return $ Board n b
-  where upTo n cs = do guard $ (length cs) == n
-                       return $ array (0,n-1) . (zip [0..]) $ cs
+  where upTo cs = do guard $ (length cs) == n
+                     return $ array (0,n-1) . (zip [0..]) $ cs
 
 
 toList :: Board -> [[Char]]
