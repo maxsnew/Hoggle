@@ -5,11 +5,12 @@ import Control.Applicative
 import Control.Monad
 import Data.Array (Array, elems, array)
 import qualified Data.Array as Arr
+import Data.List
 
 data Board = Board {
   size   :: Int,
   spaces :: (Array Int (Array Int Char))
-  }
+  } deriving Eq
 
 mkBoard :: Int -> [[Char]] -> Maybe Board
 mkBoard n ccs = do
@@ -34,4 +35,4 @@ neighbors b (i,j) = [(i', j')
                      ]
 
 instance Show Board where
-   show = ("Board " ++) .  show . toList
+   show = unlines . map (intersperse ' ') . toList
