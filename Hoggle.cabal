@@ -11,11 +11,24 @@ category:            Game
 build-type:          Simple
 cabal-version:       >=1.8
 
-executable Hoggle
-  main-is:             Main.hs
+Library
   Hs-Source-Dirs:      src
   build-depends:       base >= 4.5.0, base < 5,
                        random >= 1.0, random < 2,
                        mtl >= 2.1, mtl < 3,
-                       array >= 0.4, array < 0.5                       
+                       array >= 0.4, array < 0.5
+  Exposed-Modules:     Game.Hoggle
+  Other-Modules:       Game.Hoggle.Random,
+                       Game.Hoggle.Board
   ghc-options:         -Wall -fno-warn-type-defaults
+  Buildable:           True
+
+executable Hoggle
+  main-is:             Main.hs
+  Hs-Source-Dirs:      .
+  build-depends:       Hoggle,
+                       base >= 4.5.0, base < 5,
+                       mtl >= 2.1, mtl < 3,
+                       random >= 1.0, random < 2
+  ghc-options:         -Wall -fno-warn-type-defaults
+

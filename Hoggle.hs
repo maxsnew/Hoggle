@@ -1,7 +1,7 @@
 module Main
        where
 
-import Hoggle.Random
+import Game.Hoggle
 
 import Control.Monad.State
 import System.Random

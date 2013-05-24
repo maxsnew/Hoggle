@@ -1,7 +1,7 @@
-module Hoggle.Random
+module Game.Hoggle.Random
        where
 
-import Hoggle.Board
+import Game.Hoggle.Board
 
 import Control.Applicative
 import Control.Monad.State

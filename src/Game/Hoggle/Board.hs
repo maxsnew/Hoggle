@@ -1,4 +1,4 @@
-module Hoggle.Board
+module Game.Hoggle.Board
        where
 
 import Control.Monad
