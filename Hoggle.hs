@@ -4,6 +4,8 @@ module Main
 import Game.Hoggle
 
 import Control.Monad.State
+import Data.Binary
+import qualified Data.ByteString.Lazy as B
 import Data.List as List
 import System.Environment
 import System.Random
@@ -26,7 +28,9 @@ play :: [String] -> IO ()
 play _ = getStdGen >>= putStr . show . evalState randMidBoard
 
 load :: [String] -> IO ()
-load _ = putStrLn "Unimplemented: load"
+load _ = do c <- getContents
+            let dict = filter (isValid 3 17) . words $ c
+            B.putStr . encode $ dict
 
 badCmd :: IO ()
 badCmd = putStrLn "Expected subcommand: [play, load]"

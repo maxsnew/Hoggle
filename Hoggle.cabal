@@ -11,6 +11,7 @@ cabal-version:       >=1.8
 Library
   Hs-Source-Dirs:      src
   build-depends:       base >= 4.5.0, base < 5,
+                       containers >= 0.4,
                        random >= 1.0, random < 2,
                        mtl >= 2.1, mtl < 3,
                        array >= 0.4, array < 0.5,
@@ -18,6 +19,8 @@ Library
                        transformers >= 0.3.0, transformers < 0.4
   Exposed-Modules:     Game.Hoggle
   Other-Modules:       Game.Hoggle.Random,
+                       Game.Hoggle.Trie,
+                       Game.Hoggle.Words
                        Game.Hoggle.Board
   ghc-options:         -Wall -fno-warn-type-defaults
   Buildable:           True
@@ -27,6 +30,7 @@ executable Hoggle
   Hs-Source-Dirs:      .
   build-depends:       Hoggle,
                        base >= 4.5.0, base < 5,
+                       binary >= 0.5, bytestring >= 0.9,
                        mtl >= 2.1, mtl < 3,
                        random >= 1.0, random < 2
   ghc-options:         -Wall -fno-warn-type-defaults
