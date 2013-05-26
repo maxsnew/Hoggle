@@ -23,7 +23,7 @@ subcommands :: [(String, [String] -> IO ())]
 subcommands = [("play", play), ("load", load)]  
 
 play :: [String] -> IO ()
-play _ = getStdGen >>= putStr . show . evalState randBoard
+play _ = getStdGen >>= putStr . show . evalState randMidBoard
 
 load :: [String] -> IO ()
 load _ = putStrLn "Unimplemented: load"

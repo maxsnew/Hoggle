@@ -1,7 +1,6 @@
 module Game.Hoggle
-       (
-         module Game.Hoggle.Random
-       , randBoard
+       ( randMidBoard
+       , randBigBoard
        ) where
 
 import Game.Hoggle.Random

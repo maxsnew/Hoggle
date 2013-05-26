@@ -14,7 +14,8 @@ Library
                        random >= 1.0, random < 2,
                        mtl >= 2.1, mtl < 3,
                        array >= 0.4, array < 0.5,
-                       list-tries >= 0.5, list-tries < 0.6
+                       list-tries >= 0.5, list-tries < 0.6,
+                       transformers >= 0.3.0, transformers < 0.4
   Exposed-Modules:     Game.Hoggle
   Other-Modules:       Game.Hoggle.Random,
                        Game.Hoggle.Board

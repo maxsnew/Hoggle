@@ -4,6 +4,8 @@ module Game.Hoggle.Random
 import Game.Hoggle.Board
 
 import Control.Applicative
+import Control.Monad.Identity
+import Control.Monad.Trans.Maybe
 import Control.Monad.State
 import Data.List as List
 import Data.Maybe
@@ -11,8 +13,28 @@ import System.Random
 
 type Cube = String
 
-cubes :: [Cube]
-cubes =
+fourCubes :: [Cube]
+fourCubes =
+  [ "aaciot"
+  , "ahmors"
+  , "egkluy"
+  , "abilty"
+  , "acdemp"
+  , "egintv"
+  , "gilruw"
+  , "elpstu"
+  , "denosw"
+  , "acelrs"
+  , "abjmoq"
+  , "eefhiy"
+  , "ehinps"
+  , "dknotu"
+  , "adenvz"
+  , "biforx"
+  ]
+
+fiveCubes :: [Cube]
+fiveCubes =
   [ "aaafrs"
   , "aaeeee"
   , "aafirs"
@@ -40,10 +62,21 @@ cubes =
   , "ooottu"
   ]
 
-type Rand a = State StdGen a
+type MR = MaybeT Rand
+type Rand = StateT StdGen Identity
+randMidBoard :: Rand Board
+randMidBoard = fromJust <$> (runMaybeT $ randBoard fourCubes)
 
-randBoard :: Rand Board
-randBoard = (fromJust . mkBoard n . splitUp n) <$> randL
+randBigBoard :: Rand Board
+randBigBoard = fromJust <$> (runMaybeT $ randBoard fiveCubes)
+
+liftMaybe :: (Monad m) => Maybe a -> MaybeT m a
+liftMaybe = MaybeT . return
+
+randBoard :: [Cube] -> MR Board
+randBoard cubes = do l <- lift randL
+                     let letters = splitUp n l
+                     liftMaybe . mkBoard n $ letters
   where n     = floor . sqrt . fromIntegral . length $ cubes
         randL = shuffle cubes >>= mapM pick
 
