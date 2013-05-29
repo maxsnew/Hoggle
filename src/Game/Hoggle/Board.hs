@@ -46,7 +46,7 @@ instance Arbitrary Board where
   arbitrary = sized board'
     where board' 0 = pure . toBoard 0 $ []
           board' n = oneof [board' (n-1),
-                             toBoard n <$> (vectorOf n (vectorOf n (elements ['a'..'z'])))]
+                            toBoard n <$> vectorOf n (vectorOf n (elements ['a'..'z']))]
           toBoard n bs = fromJust . mkBoard n $ bs
 
 instance Arbitrary Index where

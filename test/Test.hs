@@ -28,14 +28,14 @@ isInRange (Ind (i,j)) b = not ((len <= 0) || (i >= len) || (j >= len))
 prop_good_reference :: Index -> Board -> Property
 prop_good_reference ind@(Ind (i,j)) b = property $
                                         ind `isInRange` b
-                                        ==> (b ! ind) == ((toList b) !! i) !! j
+                                        ==> (b ! ind) == (toList b !! i) !! j
 
 prop_adjacent_neighbors :: Index -> Board -> Property
 prop_adjacent_neighbors ind@(Ind (i,j)) b = property $
                                             ind `isInRange` b
                                             ==> all offBy1 . neighbors b $ ind
-  where offBy1 (Ind (i',j')) = (dist i i') `elem` [0,1]
-                               && (dist i i') `elem` [0,1]
+  where offBy1 (Ind (i',j')) = dist i i' `elem` [0,1]
+                               && dist i i' `elem` [0,1]
                                && not ((i == i') && (j == j'))
         dist x y = abs (x - y)
 

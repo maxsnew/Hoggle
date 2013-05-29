@@ -5,11 +5,10 @@ import Game.Hoggle.Board
 import Game.Hoggle.Trie as T
 
 import Control.Applicative
-import Control.Monad.Trans.List
-import Control.Monad.Trans.Reader
+import Control.Monad.List
+import Control.Monad.Reader
 import Control.Monad.Identity
 import Control.Monad.State
-import Data.Monoid
 
 type SLR s r = StateT s (ListT (ReaderT r Identity))
 type Loc = SLR (Dict, Index, [Index]) Board
@@ -37,7 +36,7 @@ putDict d = do
 
 curPref :: Loc String
 curPref = do
-  b              <- lift . lift $ ask
+  b              <- ask
   (_, cur, _)    <- get
   return $ case b ! cur of
     'q' -> "qu"
@@ -45,7 +44,7 @@ curPref = do
 
 nextLoc :: Loc ()
 nextLoc = do
-  b              <- lift . lift $ ask
+  b              <- ask
   (d, cur, prev) <- get
   next           <- liftLoc $ neighbors b cur
   guard (next `notElem` prev)
