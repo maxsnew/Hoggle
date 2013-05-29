@@ -11,6 +11,8 @@ data Board = Board {
   spaces :: Array Int (Array Int Char)
   } deriving Eq
 
+type Index = (Int, Int)             
+
 mkBoard :: Int -> [[Char]] -> Maybe Board
 mkBoard n ccs = do
   as <- mapM upTo ccs

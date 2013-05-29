@@ -8,3 +8,15 @@ type Dict = TrieSet Map Char
 
 mkDict :: [String] -> Dict
 mkDict = Set.fromList
+
+null :: Dict -> Bool
+null = Set.null
+
+withPrefix :: String -> Dict -> Dict
+withPrefix = deletePrefix
+
+member :: String -> Dict -> Bool
+member = Set.member
+
+delete :: String -> Dict -> Dict
+delete = Set.delete

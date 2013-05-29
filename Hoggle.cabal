@@ -21,7 +21,8 @@ Library
   Other-Modules:       Game.Hoggle.Random,
                        Game.Hoggle.Trie,
                        Game.Hoggle.Words
-                       Game.Hoggle.Board
+                       Game.Hoggle.Board,
+                       Game.Hoggle.Check
   ghc-options:         -Wall -fno-warn-type-defaults
   Buildable:           True
 
