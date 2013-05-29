@@ -4,22 +4,21 @@ module Game.Hoggle.Check
 import Game.Hoggle.Board
 import Game.Hoggle.Trie as T
 
+import Control.Applicative
 import Control.Monad.Trans.List
 import Control.Monad.Trans.Reader
 import Control.Monad.Identity
 import Control.Monad.State
 
-import Debug.Trace
-
 type SLR s r = StateT s (ListT (ReaderT r Identity))
 type Loc = SLR (Dict, Index, [Index]) Board
 
 answers :: Board -> Dict -> [String]
-answers b d = do start <- [(i,j) | i <- inds, j <- inds]
+answers b d = do start <- Ind <$> [(i,j) | i <- inds, j <- inds]
                  runLoc b d start startingAt
   where inds = [1.. size b]
 
-runLoc :: Board -> Dict -> (Int, Int) -> Loc a -> [a]
+runLoc :: Board -> Dict -> Index -> Loc a -> [a]
 runLoc b d start l = runIdentity $ runReaderT (runListT (evalStateT l (d, start, []))) b
 
 liftLoc :: [a] -> Loc a

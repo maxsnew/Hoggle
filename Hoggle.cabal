@@ -16,12 +16,13 @@ Library
                        mtl >= 2.1, mtl < 3,
                        array >= 0.4, array < 0.5,
                        list-tries >= 0.5, list-tries < 0.6,
-                       transformers >= 0.3.0, transformers < 0.4
-  Exposed-Modules:     Game.Hoggle
+                       transformers >= 0.3.0, transformers < 0.4,
+                       QuickCheck >= 2.0, QuickCheck < 3
+  Exposed-Modules:     Game.Hoggle,
+                       Game.Hoggle.Board
   Other-Modules:       Game.Hoggle.Random,
                        Game.Hoggle.Trie,
                        Game.Hoggle.Words
-                       Game.Hoggle.Board,
                        Game.Hoggle.Check
   ghc-options:         -Wall -fno-warn-type-defaults
   Buildable:           True
@@ -36,3 +37,12 @@ executable Hoggle
                        random >= 1.0, random < 2
   ghc-options:         -Wall -fno-warn-type-defaults
 
+Test-Suite test
+  type:                exitcode-stdio-1.0
+  Hs-Source-Dirs:      test
+  main-is:             Test.hs
+  build-depends:       Hoggle,
+                       base,
+                       test-framework >= 0.8, test-framework < 0.9,
+                       test-framework-quickcheck2 >= 0.3, test-framework-quickcheck2 < 0.4,
+                       QuickCheck >= 2.0, QuickCheck < 3
