@@ -22,15 +22,16 @@ dispatch cmd args = sub
   where sub = maybe badCmd ($ args) . List.lookup cmd $ subcommands
 
 subcommands :: [(String, [String] -> IO ())]
-subcommands = [("play", play), ("load", load)]  
+subcommands = [("play", play), ("load", load)]
 
 play :: [String] -> IO ()
 play _ = getStdGen >>= putStr . show . evalState randMidBoard
 
 load :: [String] -> IO ()
 load _ = do c <- getContents
-            let dict = filter (isValid 3 17) . words $ c
+            let dict = mkDict . filter (isValid 3 17) . words $ c
             B.putStr . encode $ dict
+
 
 badCmd :: IO ()
 badCmd = putStrLn "Expected subcommand: [play, load]"

@@ -9,6 +9,7 @@ import Control.Monad.Trans.List
 import Control.Monad.Trans.Reader
 import Control.Monad.Identity
 import Control.Monad.State
+import Data.Monoid
 
 type SLR s r = StateT s (ListT (ReaderT r Identity))
 type Loc = SLR (Dict, Index, [Index]) Board
@@ -16,7 +17,7 @@ type Loc = SLR (Dict, Index, [Index]) Board
 answers :: Board -> Dict -> [String]
 answers b d = do start <- Ind <$> [(i,j) | i <- inds, j <- inds]
                  runLoc b d start startingAt
-  where inds = [1.. size b]
+  where inds = [0.. size b - 1]
 
 runLoc :: Board -> Dict -> Index -> Loc a -> [a]
 runLoc b d start l = runIdentity $ runReaderT (runListT (evalStateT l (d, start, []))) b
@@ -58,8 +59,7 @@ startingAt = do
   d <- getDict
   pref <- curPref
   let s = if "" `T.member` d
-          then [""]
-          else []
-  nextLoc
-  nextS <- startingAt
-  liftLoc $ map (pref ++) (nextS : s)
+          then return ""
+          else mzero
+  s `mplus` 
+    (nextLoc >> (pref ++) <$> startingAt)
