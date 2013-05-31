@@ -11,6 +11,9 @@ cubes =
   , "asdfk"
   ]
 
+on : (a -> a -> b) -> (c -> a) -> c -> c -> b
+on f chng x y = f (chng x) (chng y)
+
 const : a -> (b -> a)
 const a = \_ -> a
 
@@ -22,13 +25,20 @@ transpose xss = if null xss
              then []
              else (map head xss) :: transpose (filter (not . null) . map tail <| xss)
 
-rotate : [[a]] -> [[a]]
-rotate = map reverse . transpose
+data Dir = Clock | CtrClock
 
-(rawBut, clicks) = Input.button "rotate!"
+rotate : Dir -> [[a]] -> [[a]]
+rotate d = if | d == Clock    -> map reverse . transpose
+              | d == CtrClock -> transpose . map reverse
+
+(clockBut, clockClicks) = Input.button "clockwise"
+(ctrBut, ctrClicks) = Input.button "counter-clockwise"
+
+clocks = sampleOn clockClicks (constant Clock)
+ctrs = sampleOn ctrClicks (constant CtrClock)
 
 letters : Signal [[Char]]
-letters = foldp (\_ cs -> rotate cs) cubes (clicks)
+letters = foldp (\c brd -> rotate c brd) cubes (merge clocks ctrs)
 
 mmap : (a -> b) -> [[a]]  -> [[b]]
 mmap = map . map  
@@ -51,11 +61,13 @@ assemble = flow down . map (flow right)
 layout : Signal Element
 layout = assemble . board <~ letters
 
-buttn : Element
-buttn = size 50 30 rawBut
+sizedBut : Element -> Element
+sizedBut btn = size 75 30 btn
 
 arrange : Element -> Element -> Element
-arrange btn lay = container 100 (widthOf lay) midTop btn
+arrange btn lay = container ((max `on` widthOf) lay btn) 35 midTop . sizedBut <| btn
 
 main : Signal Element
-main = above <~ layout ~ (arrange buttn <~ layout)
+main = flow down <~ combine [layout,
+                             arrange clockBut <~ layout,
+                             arrange ctrBut <~ layout]
