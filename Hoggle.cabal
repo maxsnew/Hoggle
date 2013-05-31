@@ -9,7 +9,7 @@ build-type:          Simple
 cabal-version:       >=1.8
 
 Library
-  Hs-Source-Dirs:      src
+  Hs-Source-Dirs:      src/hs
   build-depends:       base >= 4, base < 5,
                        containers >= 0.4,
                        random >= 1.0, random < 2,
@@ -19,10 +19,10 @@ Library
                        transformers >= 0.3.0, transformers < 0.4,
                        QuickCheck >= 2.0, QuickCheck < 3
   Exposed-Modules:     Game.Hoggle,
-                       Game.Hoggle.Board
+                       Game.Hoggle.Board,
+                       Game.Hoggle.Trie
   Other-Modules:       Game.Hoggle.Random,
-                       Game.Hoggle.Trie,
-                       Game.Hoggle.Words
+                       Game.Hoggle.Words,
                        Game.Hoggle.Check
   ghc-options:         -Wall -fno-warn-type-defaults
   Buildable:           True
@@ -44,5 +44,7 @@ Test-Suite test
   build-depends:       Hoggle,
                        base,
                        test-framework >= 0.8, test-framework < 0.9,
-                       test-framework-quickcheck2 >= 0.3, test-framework-quickcheck2 < 0.4,
+                       test-framework-quickcheck2 >= 0.3,
+                       test-framework-quickcheck2 < 0.4,
                        QuickCheck >= 2.0, QuickCheck < 3
+  ghc-options:         -Wall

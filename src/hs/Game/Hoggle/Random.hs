@@ -1,4 +1,10 @@
 module Game.Hoggle.Random
+       ( randBoard
+       , fourCubes
+       , fiveCubes
+       , randMidBoard
+       , randBigBoard
+       )
        where
 
 import Game.Hoggle.Board

@@ -9,6 +9,9 @@ type Dict = TrieSet Map Char
 mkDict :: [String] -> Dict
 mkDict = Set.fromList
 
+toList :: Dict -> [String]
+toList = Set.toList
+
 null :: Dict -> Bool
 null = Set.null
 

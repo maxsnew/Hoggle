@@ -1,4 +1,5 @@
 module Game.Hoggle.Check
+       (answers)
        where
 
 import Game.Hoggle.Board
@@ -13,9 +14,9 @@ import Control.Monad.State
 type SLR s r = StateT s (ListT (ReaderT r Identity))
 type Loc = SLR (Dict, Index, [Index]) Board
 
-answers :: Board -> Dict -> [String]
-answers b d = do start <- Ind <$> [(i,j) | i <- inds, j <- inds]
-                 runLoc b d start startingAt
+answers :: Board -> Dict -> Dict
+answers b d = mkDict $ do start <- Ind <$> [(i,j) | i <- inds, j <- inds]
+                          (runLoc b d start startingAt)
   where inds = [0.. size b - 1]
 
 runLoc :: Board -> Dict -> Index -> Loc a -> [a]
@@ -28,11 +29,6 @@ getDict :: Loc Dict
 getDict = do
   (d, _, _) <- get
   return d
-
-putDict :: Dict -> Loc ()
-putDict d = do
-  (_, c, cs) <- get
-  put (d, c, cs)
 
 curPref :: Loc String
 curPref = do

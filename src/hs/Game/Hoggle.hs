@@ -3,6 +3,7 @@ module Game.Hoggle
        , randMidBoard
        , randBigBoard
        , mkDict
+       , member
        , isValid
        ) where
 
